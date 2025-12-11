@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Order Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #8B6F47 0%, #D2B48C 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: #F5E6D3;
+            border: 8px solid #654321;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(139, 69, 19, 0.1);
+            padding: 40px;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid #8B4513;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .wood-grain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: repeating-linear-gradient(
+                90deg,
+                rgba(139, 69, 19, 0.05) 0px,
+                rgba(139, 69, 19, 0.05) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #654321;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8B4513;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        label {
+            display: block;
+            color: #654321;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 3px solid #8B4513;
+            border-radius: 5px;
+            background: #FFF8DC;
+            color: #654321;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #654321;
+            box-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .size-options,
+        .flavor-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .option-card {
+            position: relative;
+        }
+
+        .option-card input[type="radio"],
+        .option-card input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .option-label {
+            display: block;
+            padding: 15px;
+            background: #DEB887;
+            border: 3px solid #8B4513;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            color: #654321;
+        }
+
+        .option-card input:checked + .option-label {
+            background: #8B4513;
+            color: #F5E6D3;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .option-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-control button {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #8B4513;
+            background: #DEB887;
+            color: #654321;
+            font-size: 1.5em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quantity-control button:hover {
+            background: #8B4513;
+            color: #F5E6D3;
+        }
+
+        .quantity-control input {
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: #654321;
+            color: #F5E6D3;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: #8B4513;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .decorative-line {
+            height: 3px;
+            background: linear-gradient(to right, transparent, #8B4513, transparent);
+            margin: 25px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wood-grain"></div>
+        <h1>Order Form</h1>
+        <p class="subtitle">Handcrafted with Tradition</p>
+        
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="name">Customer Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="(123) 456-7890">
+            </div>
+
+            <div class="decorative-line"></div>
+
+            <div class="form-group">
+                <label>Select Size</label>
+                <div class="size-options">
+                    <div class="option-card">
+                        <input type="radio" id="small" name="size" value="small" required>
+                        <label for="small" class="option-label">Small<br>8 oz</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="radio" id="medium" name="size" value="medium">
+                        <label for="medium" class="option-label">Medium<br>16 oz</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="radio" id="large" name="size" value="large">
+                        <label for="large" class="option-label">Large<br>24 oz</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="radio" id="xlarge" name="size" value="xlarge">
+                        <label for="xlarge" class="option-label">X-Large<br>32 oz</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="decorative-line"></div>
+
+            <div class="form-group">
+                <label>Choose Flavors (Select multiple)</label>
+                <div class="flavor-options">
+                    <div class="option-card">
+                        <input type="checkbox" id="vanilla" name="flavors" value="vanilla">
+                        <label for="vanilla" class="option-label">Vanilla</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="checkbox" id="chocolate" name="flavors" value="chocolate">
+                        <label for="chocolate" class="option-label">Chocolate</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="checkbox" id="strawberry" name="flavors" value="strawberry">
+                        <label for="strawberry" class="option-label">Strawberry</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="checkbox" id="caramel" name="flavors" value="caramel">
+                        <label for="caramel" class="option-label">Caramel</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="checkbox" id="mint" name="flavors" value="mint">
+                        <label for="mint" class="option-label">Mint</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="checkbox" id="coffee" name="flavors" value="coffee">
+                        <label for="coffee" class="option-label">Coffee</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="checkbox" id="hazelnut" name="flavors" value="hazelnut">
+                        <label for="hazelnut" class="option-label">Hazelnut</label>
+                    </div>
+                    <div class="option-card">
+                        <input type="checkbox" id="maple" name="flavors" value="maple">
+                        <label for="maple" class="option-label">Maple</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="decorative-line"></div>
+
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <div class="quantity-control">
+                    <button type="button" onclick="changeQuantity(-1)">-</button>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="99" readonly>
+                    <button type="button" onclick="changeQuantity(1)">+</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Special Instructions</label>
+                <textarea id="notes" name="notes" placeholder="Any special requests or dietary requirements..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Place Order</button>
+        </form>
+    </div>
+
+    <script>
+        function changeQuantity(delta) {
+            const input = document.getElementById('quantity');
+            let value = parseInt(input.value) + delta;
+            if (value < 1) value = 1;
+            if (value > 99) value = 99;
+            input.value = value;
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const flavors = [];
+            document.querySelectorAll('input[name="flavors"]:checked').forEach(cb => {
+                flavors.push(cb.value);
+            });
+            
+            if (flavors.length === 0) {
+                alert('Please select at least one flavor!');
+                return;
+            }
+            
+            let orderSummary = '📋 ORDER SUMMARY\n\n';
+            orderSummary += `Name: ${formData.get('name')}\n`;
+            orderSummary += `Email: ${formData.get('email')}\n`;
+            orderSummary += `Phone: ${formData.get('phone')}\n\n`;
+            orderSummary += `Size: ${formData.get('size')}\n`;
+            orderSummary += `Flavors: ${flavors.join(', ')}\n`;
+            orderSummary += `Quantity: ${formData.get('quantity')}\n`;
+            if (formData.get('notes')) {
+                orderSummary += `\nSpecial Instructions: ${formData.get('notes')}`;
+            }
+            
+            alert(orderSummary + '\n\nThank you for your order! 🌲');
+        });
+    </script>
+</body>
+</html>
