@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-image: url('fitness.jpg');
+	        background-repeat: no-repeat;
+	        background-position: center center;
+	        background-size: cover;
+	        background-attachment: fixed;
+	        color: black;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #faf7f2;
+            border: 3px solid #8b7355;
+            border-radius: 5px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #5d4037;
+            margin-bottom: 10px;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8b7355;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff9f0;
+            border: 2px solid #d4a574;
+            border-radius: 3px;
+        }
+
+        h2 {
+            color: #6d4c41;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 1px solid #d4a574;
+            padding-bottom: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #5d4037;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #d4a574;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            background: #ffffff;
+            color: #5d4037;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8b7355;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5e6d3;
+            border: 1px dashed #8b7355;
+            border-radius: 3px;
+            color: #5d4037;
+            font-size: 16px;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result.empty {
+            color: #a08060;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CONVERTER</h1>
+        <p class="subtitle">~ Height & Weight ~</p>
+
+        <div class="section">
+            <h2>HEIGHT CONVERTER</h2>
+            <div class="input-group">
+                <label for="feet">Feet:</label>
+                <input type="number" id="feet" placeholder="Enter feet" step="1" min="0">
+            </div>
+            <div class="input-group">
+                <label for="inches">Inches:</label>
+                <input type="number" id="inches" placeholder="Enter inches" step="0.1" min="0">
+            </div>
+            <div class="result" id="heightResult">
+                <span class="empty">Enter height to convert</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>WEIGHT CONVERTER</h2>
+            <div class="input-group">
+                <label for="pounds">Pounds (lbs):</label>
+                <input type="number" id="pounds" placeholder="Enter pounds" step="0.1" min="0">
+            </div>
+            <div class="result" id="weightResult">
+                <span class="empty">Enter weight to convert</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const feetInput = document.getElementById('feet');
+        const inchesInput = document.getElementById('inches');
+        const poundsInput = document.getElementById('pounds');
+        const heightResult = document.getElementById('heightResult');
+        const weightResult = document.getElementById('weightResult');
+
+        function convertHeight() {
+            const feet = parseFloat(feetInput.value) || 0;
+            const inches = parseFloat(inchesInput.value) || 0;
+            
+            if (feet === 0 && inches === 0) {
+                heightResult.innerHTML = '<span class="empty">Enter height to convert</span>';
+                return;
+            }
+
+            const totalInches = (feet * 12) + inches;
+            const cm = (totalInches * 2.54).toFixed(2);
+            const meters = (cm / 100).toFixed(2);
+
+            heightResult.classList.remove('empty');
+            heightResult.innerHTML = `<strong>${cm} cm</strong> (${meters} m)`;
+        }
+
+        function convertWeight() {
+            const pounds = parseFloat(poundsInput.value) || 0;
+            
+            if (pounds === 0) {
+                weightResult.innerHTML = '<span class="empty">Enter weight to convert</span>';
+                return;
+            }
+
+            const kg = (pounds * 0.453592).toFixed(2);
+
+            weightResult.classList.remove('empty');
+            weightResult.innerHTML = `<strong>${kg} kg</strong>`;
+        }
+
+        feetInput.addEventListener('input', convertHeight);
+        inchesInput.addEventListener('input', convertHeight);
+        poundsInput.addEventListener('input', convertWeight);
+    </script>
+</body>
+</html>
